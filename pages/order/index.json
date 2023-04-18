@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+      "i-toast": "../../components/toast/index",
+      "popup": "../../components/popup/index"
+    }
+}

@@ -1,0 +1,50 @@
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>选择乘客</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<view class='content'>
+  <view class='add' bindtap='enterPage' data-types="add">
+    <image src='/images/tj@3x.svg'></image>
+    <text>新增乘客</text>
+  </view>
+  <block wx:if="{{employeeList.length}}">
+      <view class='list'>
+        <view class='item {{employeeList.length-1 == index ? "": "xpk-1px-b"}}' wx:for="{{employeeList}}" wx:key="item">
+          <view bindtap="selectUser" data-index="{{index}}" data-id="{{item.id}}">
+            <image class='icon' wx:if="{{item.isSelected}}" src="/images/tx_xz@3x.svg"></image> 
+            <image class='icon' wx:else src="/images/Oval@3x.svg"></image> 
+          </view>
+          <view class='con' bindtap="selectUser" data-index="{{index}}" data-id="{{item.id}}">
+            <view class='part1'>
+              <text>{{item.name || item.contactsName}}</text>
+              <text>{{item.wechatPhone || item.contactsPhone}}</text>
+            </view>
+            <view class='part2'>
+              <text>{{item.department || item.workplace}}</text>
+            </view>          
+          </view>
+          <image data-item="{{item}}" class='edit' src='/images/bj@3x.svg' bindtap='enterPage' data-types='edit'></image>
+        </view>
+      </view>
+
+      <view class='is-loading' wx:if='{{hasMore}}'>
+          <text class='icon-Loading icon'></text>
+          <text class='text'>正在加载中</text>
+      </view>
+      <view class='no-more' wx:else>
+          <text class='line'></text>
+          <text class='text'>没有更多了~</text>
+          <text class='line'></text>
+      </view>
+  </block>
+</view>
+
+<view class='btn btn-yellow' bindtap='choiceUser'>确定</view>
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />

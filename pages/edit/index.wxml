@@ -1,0 +1,31 @@
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>{{isEdit ? '编辑': '新增'}}{{isPassenger ? '乘客': '账号'}}</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<view class='content'>
+  <view class='info-con'>
+    <view class='item xpk-1px-b'>
+      <text class='label'>{{isPassenger ? '乘客姓名': '姓名'}}</text>
+      <input type='text' maxlength='6' data-type="username" bindinput='inputVal' value='{{username}}' placeholder='{{isPassenger ? "请输入乘客姓名":"请输入姓名"}}'></input>
+    </view>
+    <view class='item xpk-1px-b'>
+      <text class='label'>{{isPassenger ? '联系人手机号': '登录手机号'}}</text>
+      <input type='number' maxlength='11' data-type="phone" bindinput='inputVal' value='{{phone}}' placeholder='{{isPassenger ? "请输入乘客手机号": "请输入手机号"}}'></input>
+    </view>
+    <view class='item'>
+      <text class='label'>{{isPassenger ? '单位名称（选填）': '部门名称（选填）'}}</text>
+      <input type='text' maxlength='13' data-type="company" bindinput='inputVal' value='{{company}}' placeholder='{{isPassenger ? "请输入乘客的单位名称": "请输入部门名称"}}'></input>
+    </view>
+  </view>
+  <view class='btn btn-yellow' bindtap='submit'>保存</view>
+  <view wx:if="{{isEdit}}" class='btn' bindtap='isDelete'>{{isPassenger ? '删除': (type == '1' ? '禁用' : '启用')}}</view>
+</view>
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />
+

@@ -1,0 +1,24 @@
+<!-- 登录注册 -->
+<!-- 头部 -->
+<view class='login-con'>
+  <view class='header' style="padding-top: {{item.statusBarHeight}}px;">
+    <text>登录注册</text>
+  </view>
+  <view class='header_' style="padding-top: {{item.statusBarHeight}}px;"></view>
+
+  <!-- 内容 -->
+  <view class="content" style='height: {{(item.screenHeight - item.statusBarHeight - 44)}}px'>
+    <view class='tip'>  
+      <view>您好，</view> 
+      <view>欢迎使用<text>会拉拉出行</text></view> 
+    </view>    
+    <view wx:if="{{isGet}}" class='btn login-btn' bindtap='login'>登录</view>
+    <view wx:else class='btn login-btn'>登录<button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button></view>
+    <view wx:if="{{isGet}}" class='btn reg-btn' bindtap='login'>企业注册</view>
+    <view wx:else class='btn reg-btn'>企业注册<button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button></view>
+  </view>
+</view>
+
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />

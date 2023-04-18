@@ -1,0 +1,225 @@
+<block wx:if="{{initData}}">
+  <!-- 头部 -->
+  <view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+    <view class='header-cons'>
+      <image class='back' src='/images/back.png' bindtap='backPre'></image>
+      <text>请选择车辆</text>  
+    </view>
+  </view>
+  <view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+  <view class='content'>
+    <view class='car-info'>
+      <view class="service" bindtap='showPopup'>
+        <image src="/images/kf@3x.svg"></image>
+        <text>客服</text>
+      </view>
+      <view class='part1'>
+        <view>包车行程</view>
+        <text wx:if="{{obj.orderType == 1}}">单程</text>
+        <text wx:elif="{{obj.orderType == 2}}">接机</text>
+        <text wx:elif="{{obj.orderType == 3}}">送机</text>
+        <text wx:elif="{{obj.orderType == 4}}">包天</text>
+      </view>
+      <view class='part2'>
+        <view class='item'>
+          <view class='dot green'></view>
+          <text>{{obj.departure}}</text>
+        </view>
+        <view class='item'>
+          <view class='dot yellow'></view>
+          <text>{{obj.destination}}</text>
+        </view>
+      </view>
+      <view class='part3'>
+        <view class='item'>
+          <image src='/images/sj@3x.png'></image>
+          <text>出发时间：{{obj.startTimes ? (obj.startTimes[0].time + ' ' + obj.startTimes[1].time + obj.startTimes[2].time): '无'}}</text>
+        </view>
+        <view wx:if="{{obj.orderType == 4}}" class='item item-last'>
+          <image src='/images/sj@3x.png'></image>
+          <text>返回时间：{{obj.endTimes ? (obj.endTimes[0].time + ' ' + obj.endTimes[1].time + obj.endTimes[2].time): '无'}}</text>
+        </view>
+        <view wx:if="{{obj.orderType == 2 || obj.orderType == 3}}" class='item item-last'>
+          <image src='/images/hbh@3x.png'></image>
+          <text>{{obj.carNum}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='fee-info'>
+      <view class='part_1'>以下报价包含：车辆使用费、司机服务费、燃油费、路桥费、发票、如涉及其他费用，请统一按照平台<text bindtap='showFeePopup'>计费标准</text>进行结算</view>
+      <view class='part_2'>选择车辆</view>
+      <view class='tab-cons'>
+        <view class='tab-con'>
+          <text class='item {{index == mf ? "select" : ""}}' wx:for="{{menu}}" wx:key="item" data-index='{{index}}' data-id="{{item.vehicleModelId}}" bindtap='select'>{{item.vehicleModelName}}</text>
+        </view>     
+        <!-- <view class='bot-line-container'>
+          <view class='slide-wrapper' style='margin-left: {{mf*25}}%'>
+            <view class='slide'></view>
+          </view>
+        </view>    -->
+      </view>
+      <view class='choice-car'>
+        <view class='item' wx:for="{{carInfo}}" wx:key="item">
+          <view class='left'>
+            <image mode='aspectFill' src='{{item.cover}}'></image>
+            <text bindtap='openMasks' data-id="{{item.id}}">查看更多</text>
+          </view>
+          <view class='right'>
+            <view class='part1'>{{item.name}}</view>
+            <view class='part2'>
+              <image src='/images/hz@3x.svg'></image>
+              <text>核载：{{item.maxPersonNum}}人</text>
+              <image src='/images/xl@3x.svg'></image>
+              <text>行李：{{item.maxLuggageNum}}人</text>
+            </view>
+            <view class='part3' wx:if="{{item.priceStatus != 'noPrice'}}">
+              <text>¥{{item.price}}</text>起
+            </view>
+            <view class='part3' wx:else>{{item.price}}</view>
+            <view class='add-sub'>
+              <image bindtap='changeCount' data-type="sub" class="sub" data-index="{{index}}" data-id="{{item.id}}" src='/images/jian@3x.svg'></image>
+              <text>{{item.textVal}}</text>
+              <image bindtap='changeCount' data-type="add" class='add' data-index="{{index}}" data-id="{{item.id}}" src='/images/jia@3x.svg'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='footer'>
+    <view class='left'>
+      <view class='part1'>
+        <view class='yu'>
+          预估价<text class='s'>¥</text><text class='b'>{{orderPrice}}</text>
+        </view>
+        <view class='fees' bindtap='openMask'>
+          费用明细
+          <image src='/images/up.svg'></image>
+        </view>
+      </view>
+      <view class='part2'>
+        可乘坐<text>{{totalPassenger}}</text>人，可携带<text>{{luggageNum}}</text>件行李
+      </view>
+    </view>
+    <view class='right' bindtap='nextPage'>
+      <text>下一步</text>
+      <text>（填写信息）</text>
+    </view>
+  </view>
+</block>
+
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />
+
+<!-- 咨询弹窗 -->
+<view class='slide-up_popup' bindtap='closePopup' catchtouchmove='preventEvent' wx:if='{{customerService}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+        <view class='head'>
+            <text class='text'>请选择</text>
+            <text class='icon-gb' bindtap='closePopup'></text>
+        </view>
+        <view class='main'>
+            <view class='item' bindtap='callService'>
+                <image mode='aspectFill' src='/images/dhkf@3x.svg' class='icon'></image>
+                <text class='text'>电话客服</text>
+            </view>
+            <view class='item'>
+                <image mode='aspectFill' src='/images/zxkf@3x.svg' class='icon'></image>
+                <text class='text'>在线客服</text>
+                <button class="contact_button" open-type="contact" session-from="weapp"></button>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 计费标准弹窗 -->
+<view class='slide-up_popup' bindtap='closeFeePopup' catchtouchmove='preventEvent' wx:if='{{feeRule}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+      <view class='head xpk-1px-b'>
+        <text class='text'>计费标准</text>
+        <text bindtap="closeFeePopup" class='icon-gb'></text>
+      </view>
+      <view class='cont xpk-1px-b'>
+        <view class='item'>
+          <view class='part1'>
+            <text class='dot'></text>费用说明
+          </view>
+          <view class='p'>
+            平台报价费用包含：车辆使用费、司机服务费、燃油费、路桥费、发票。
+          </view>
+        </view>
+        <view class='item'>
+          <view class='part1'>
+            <text class='dot'></text>加班费
+          </view>
+          <view class='p'>
+            如果超出行驶之外的时间段：路上21:30-次日6:00期间行使，商务车：50元/小时：中巴车：60元/小时；大巴车：80元/小时（不足1小时按1小时计算）。
+          </view>
+        </view>
+        <view class='item'>
+          <view class='part1'>
+            <text class='dot'></text>停车费
+          </view>
+          <view class='p'>
+            如果超存在司机停车费，顾客需根据实际费用支付给会拉拉平台。
+          </view>
+        </view>
+        <view class='item item-last'>
+          <view class='part1'>
+            <text class='dot'></text>停车费
+          </view>
+          <view class='p'>
+            如果存在食宿费，顾客需根据实际费用支付给会拉拉平台。
+          </view>
+        </view>
+      </view>
+      <view class='tips'>*以上费用由会拉拉平台按照实际情况统一收取，如遇特殊情况，以平台和顾客沟通协商为准。</view>
+      <view class='btn btn-yellow' bindtap='closeFeePopup'>确定</view>
+    </view>
+</view>
+
+<!-- 费用明细弹窗 -->
+<view class='mask' wx:if="{{isMask}}" bindtap='closeMask'>
+  <view class='fees-con' catchtap="returnMask">
+    <view class='head xpk-1px-b'>
+      <text class='text'>费用明细</text>
+      <text class='icon-gb' catchtap='closeMask'></text>
+    </view>
+    <scroll-view class='cons' scroll-y='{{true}}' bindscrolltolower='onScrollBottom'>
+      <view class='item' wx:for="{{allCarInfo}}" wx:key="item">
+        <block wx:if="{{item.textVal}}">
+          <view class='num'>{{item.name}}x{{item.textVal}}</view>
+          <view class='money' wx:if="{{item.priceStatus != 'noPrice'}}">￥{{item.price * item.textVal}}</view>   
+          <view class='money money-rg' wx:else>{{item.price}}</view>      
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 车辆详情 -->
+<view class='masks' wx:if="{{isMasks}}" bindtap='closeMasks'  style='top: {{deviceInfo.statusBarHeight + 44}}px'>
+  <swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{imgInfo.slideImage}}" wx:key="item">
+      <swiper-item>
+        <image class='img' mode='aspectFill' src="{{item}}" class="slide-image"/>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <view class='part2'>
+    <image src='/images/hz@3x.svg'></image>
+    <text>核载：{{imgInfo.maxPersonNum}}人</text>
+    <image src='/images/xl@3x.svg'></image>
+    <text>行李：{{imgInfo.maxLuggageNum}}人</text>
+  </view>
+
+  <view class='part3'>会拉拉认证 品质认证</view>
+  <view class='part4'>{{imgInfo.introduce}}</view>
+
+  <image class='cancel' src='/images/gb2@3x.svg'></image>
+</view>

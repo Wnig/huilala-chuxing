@@ -1,0 +1,49 @@
+<!-- 头部 -->
+<block wx:if="{{initData}}">
+  <view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+    <view class='header-cons'>
+      <image class='back' src='/images/back.png' bindtap='backPre'></image>
+      <text>{{types == 'dep' ? "在哪上车" : "要去哪里"}}</text>  
+    </view>
+  </view>
+  <view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+  <view class='header-con' style='top:{{deviceInfo.statusBarHeight  + 44}}px;'>
+    <view class='head xpk-1px-b'>
+      <view class='part1 xpk-1px'>
+        <input placeholder='请输入机场/火车站/汽车站名称'
+          class='in-put'
+          value='{{searchText}}'
+          confirm-type='search'
+          bindconfirm='onConfirm'
+          bindinput='onInput'
+          bindfocus='onFocus'>
+        </input>
+        <!-- <image wx:if='{{deleteBtn}}' class='delicon' catchtap='deleteSearchText' src="../../images/icons/ssgb@3x.svg"></image> -->
+      </view>
+      <!-- <text wx:if='{{!searchText||isSearch&&!isEdit}}' class='part2' bindtap='backLast'>取消</text> -->
+      <!-- wx:if='{{!isSearch&&searchText&&showSearchBtn}}' -->
+      <text class='part2' bindtap='onConfirm'>搜索</text>
+    </view>
+  </view>
+
+  <scroll-view  class='content' scroll-y='{{true}}' bindscrolltolower='onScrollBottom'  style='height: {{deviceInfo.screenHeight - (deviceInfo.statusBarHeight  + 54)}}px'>
+    <view class='item' wx:for="{{list}}" wx:key="item" bindtap='selAddress' data-index="{{index}}">
+      <image src='/images/ss_dw@3x.svg'></image>
+      <view class='cons {{index < list.length - 1 ? "xpk-1px-b" : ""}}'>
+        <view class='part1'>{{item.name}}<text class="label {{item.category == obj.id ? obj.color : '' }}" wx:for="{{category}}" wx:key="items" wx:for-item="obj" wx:if="{{item.category == obj.id}}">{{obj.name}}</text></view>
+        <view class='part2'>{{item.address}}</view>
+      </view>
+    </view>
+    <view class='is-loading' wx:if='{{hasMore}}'>
+        <text class='icon-Loading icon'></text>
+        <text class='text'>正在加载中</text>
+      </view>
+      <view class='no-more' wx:else>
+        <text class='line'></text>
+        <text class='text'>无更多内容了~</text>
+        <text class='line'></text>
+      </view>
+  </scroll-view>
+
+</block>

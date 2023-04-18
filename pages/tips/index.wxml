@@ -1,0 +1,41 @@
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>提示</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<view class='content'>
+  <view class='part1'>
+    <image src="/images/fkcg@3x.svg"></image>
+  </view>
+  <view class='part2'>恭喜你提交成功！</view>
+  <view class='part3'>非工作时间下单可能会有延迟哦</view>
+  <view class='part4'>
+    <view class='btn' bindtap='showPopup'>在线咨询</view>
+    <view class='btn btn-yellow' bindtap='enterPage'>查看订单</view>
+  </view>
+</view>
+
+<!-- 咨询弹窗 -->
+<view class='slide-up_popup' bindtap='closePopup' catchtouchmove='preventEvent' wx:if='{{customerService}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+        <view class='head'>
+            <text class='text'>请选择</text>
+            <text class='icon-gb' bindtap='closePopup'></text>
+        </view>
+        <view class='main'>
+            <view class='item' bindtap='callService'>
+                <image mode='aspectFill' src='/images/dhkf@3x.svg' class='icon'></image>
+                <text class='text'>电话客服</text>
+            </view>
+            <view class='item'>
+                <image mode='aspectFill' src='/images/zxkf@3x.svg' class='icon'></image>
+                <text class='text'>在线客服</text>
+                <button class="contact_button" open-type="contact" session-from="weapp"></button>
+            </view>
+        </view>
+    </view>
+</view>

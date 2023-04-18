@@ -1,0 +1,210 @@
+<view class='init' wx:if="{{initData}}">
+  <view class='cons' wx:if="{{isLogin || app.globalData.isLogin}}">
+      <!-- 首页 -->
+      <view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+        <view class='search' bindtap='enterSearch'>
+          <image src='/images/ss@3x.svg'></image>
+          <text>搜索车牌号或司机手机号</text>
+        </view>
+      </view>
+      <view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+      <!-- 内容 -->
+      <view class='content'>
+        <view class='part1'>
+          <view class='left'>
+            <view class='today'>今天</view>
+            <view class='date'>{{nowData}}{{week}}</view>      
+          </view>
+          <view class="service" bindtap='showPopup'>
+            <image src="/images/kf@3x.svg"></image>
+            <text>客服</text>
+          </view>
+        </view>
+        <!-- wx:if="initCent" -->
+        <view class='part2'>
+          <block wx:if="{{employeeTodayTrip != ''}}">
+            <view class='car-info xpk-1px-b'>
+              <!-- <view class='label finish'>{{employeeTodayTrip.statusText}}</view> -->
+              <view class='label {{(employeeTodayTrip.tripStatus != "1" && employeeTodayTrip.tripStatus != "4") ? "finish": ""}}'>{{employeeTodayTrip.statusText}}</view>
+              <view class='item'>
+                <view class='car-num'>{{employeeTodayTrip.licenseNum}}</view>
+                <text class='car-type'>{{employeeTodayTrip.vehicleName}}</text>     
+              </view>
+              <view class='item'>
+                <image class='car' mode='aspectFill'  src="{{employeeTodayTrip.vehicleCover}}"></image>   
+                <image class='driver' src='{{employeeTodayTrip.driverAvatar}}'></image>
+              </view>
+              <view class='item'>
+                <view class='name'>{{employeeTodayTrip.driverName}}</view>
+                <view class='ushare'>{{employeeTodayTrip.driverGrade}}</view>
+                <text class="order-num">已接{{employeeTodayTrip.driverOrders}}单</text>     
+              </view>
+            </view>
+            <view class="operate xpk-1px-b" wx:if="{{employeeTodayTrip.tripStatus != '5' && employeeTodayTrip.tripStatus != '6'}}">
+              <view class='item' data-phone="{{employeeTodayTrip.driverPhone}}" data-item="{{employeeTodayTrip}}" bindtap='callDriver'>
+                <image src='/images/dh@3x.png'></image>
+                <text>联系司机</text>
+              </view>
+              <view class='item xpk-1px-l' data-id="{{employeeTodayTrip.id}}" data-obj="{{employeeTodayTrip}}" data-eval="no"  bindtap='enterPage3'>
+                <image src='/images/xc@3x.png'></image>
+                <text>行程详情</text>
+              </view>
+              <view class='item xpk-1px-l' wx:if="{{employeeTodayTrip.tripStatus == '1' || employeeTodayTrip.tripStatus == '2'}}">
+                <button class='share-btn' data-eval="no" data-id="{{employeeTodayTrip.id}}" data-obj="{{employeeTodayTrip}}" open-type="share"></button>
+                <image src='/images/fxxc@3x.png'></image>
+                <text>分享行程</text>
+              </view>
+              <view wx:if="{{employeeTodayTrip.tripStatus == '3' || employeeTodayTrip.tripStatus == '4'}}" data-eval="yes" data-id="{{employeeTodayTrip.id}}" data-obj="{{employeeTodayTrip}}" bindtap='enterPage3'  class='item xpk-1px-l'>
+                <image src='/images/pjsj@3x.png'></image>
+                <text>评价司机</text>
+              </view>
+            </view>
+            <view class='route-info xpk-1px-b'>
+              <view class='left'>
+                <view class='item'>
+                  <image src='/images/ck@3x.png'></image>
+                  <text>{{employeeTodayTrip.passengerName}}</text>
+                  <label>乘客</label>
+                </view>
+                <view class='item'>
+                  <image src='/images/lxdh@3x.png'></image>
+                  <text>{{employeeTodayTrip.passengerPhone}}</text>
+                </view>
+              </view>
+              <view class='left'>
+                <view class='item'>
+                  <image src='/images/sj@3x.png'></image>
+                  <text>{{employeeTodayTrip.outTime}} 出发</text>
+                </view>
+                <view class='item' wx:if="{{employeeTodayTrip.arriveTime}}">
+                  <image src='/images/sj@3x.png'></image>
+                  <text>{{employeeTodayTrip.arriveTime}} 返回</text>
+                </view>
+                <view class='item' wx:if="{{employeeTodayTrip.flightNo}}">
+                  <image src='/images/hbh@3x.png'></image>
+                  <text>{{employeeTodayTrip.flightNo}}</text>
+                </view>
+              </view>
+              <view class='right'>
+                <view class='item'>
+                  <view class='dot green'></view>
+                  <text>{{employeeTodayTrip.outAddress}}</text>
+                </view>
+                <view class='item item-last'>
+                  <view class='dot yellow'></view>
+                  <text>{{employeeTodayTrip.arriveAddress}}</text>
+                </view>
+              </view>
+            </view>
+            <view class='more-info' data-url="../detail/index" bindtap='enterPage'>
+              <text>共{{vehicleNum}}辆车，查看全部行程 </text>
+              <image src='/images/next.svg'></image>
+            </view>          
+          </block>
+          <view class='no' wx:else>
+            <image class='nodata' src='/images/kym@3x.svg'></image>
+            <text>今日暂无行程！</text>
+          </view>
+        </view>
+
+        <view class='footer'>
+          <view class='item'  bindtap='showMyLeft'>
+            <view class='icon'>
+              <image src="/images/khzx@3x.svg"></image>
+            </view>
+            <text>客户中心</text>
+          </view>
+          <view class='item' data-url="../useCar/index?vehicleuseid={{vehicleUseId}}" bindtap='enterPage2'>
+            <view class='icon icon-cen'>
+              <image src="/images/wyyc@3x.svg"></image>
+            </view>
+            <text>我要用车</text>
+          </view>
+          <view class='item' bindtap='waiting'>
+            <view class='icon'>
+              <image src="/images/bcyy@3x.svg"></image>
+            </view>
+            <text>班车预约</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- <ad unit-id="adunit-dc21103fa41529df"></ad> -->
+
+      <!-- 我的 -->
+      <view class='slide-up_popup' bindtap='closeMyLeft' catchtouchmove='preventEvent' wx:if='{{myMask}}' animation='{{popupLeftFade}}'>
+        <view class='slider {{myMask ? "slidered": ""}}' animation='{{popLeftSlide}}' catchtap='bindMask'>
+          <view class='my-con'>
+            <image class='cancel' catchtap='closeMyLeft' src="/images/gb@3x2.svg"></image> 
+            <view class='avatar'>
+              <image class='' mode='aspectFill' src="{{logoUrl}}"></image>
+            </view>
+            <view class='my-name'>{{name}}</view>
+            <view class='my-phone'>{{wechatPhone}}</view>
+            <view class='my-menu'>
+              <block wx:for="{{myMenu}}" wx:key="item">
+                <block wx:if="{{role == 1}}">
+                    <view wx:if="{{item.id != 5}}" class='item' data-url="{{item.url}}" catchtap='enterPage2' >{{item.name}}</view>
+                    <view wx:else class='item'>{{item.name}}<button data-types='reg' class='share-btn' open-type="share"></button></view>
+                </block>
+                <block wx:elif="{{role == 2 && item.id != 1}}">
+                    <view wx:if="{{item.id != 5}}" class='item' data-url="{{item.url}}" catchtap='enterPage2' >{{item.name}}</view>
+                    <view wx:else class='item'>{{item.name}}<button data-types='reg' class='share-btn' open-type="share"></button></view>
+                </block>
+              </block>
+            </view>
+          </view>
+        </view>
+      </view>
+
+  </view>
+
+  <block wx:else>
+    <!-- <login class="login" item="{{deviceInfo}}"></login> -->
+    <view class='login-con'>
+      <view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+        <text>登录注册</text>
+      </view>
+      <view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+      <!-- 内容 -->
+      <view class="content" style='height: {{(deviceInfo.screenHeight - deviceInfo.statusBarHeight - 44)}}px'>
+        <view class='tip'>  
+          <view>您好，</view> 
+          <view>欢迎使用<text>会拉拉出行</text></view> 
+        </view>    
+        <view wx:if="{{isGet}}" class='btn login-btn' bindtap='login'>登录</view>
+        <view wx:else class='btn login-btn'>登录<button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button></view>
+        <view wx:if="{{isGet}}" class='btn reg-btn' bindtap='login'>企业注册</view>
+        <view wx:else class='btn reg-btn'>企业注册<button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button></view>
+      </view>
+    </view>
+  </block>
+</view>
+
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />
+
+<!-- 咨询弹窗 -->
+<view class='slide-up_popup' bindtap='closePopup' catchtouchmove='preventEvent' wx:if='{{customerService}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+        <view class='head'>
+            <text class='text'>请选择</text>
+            <text class='icon-gb' bindtap='closePopup'></text>
+        </view>
+        <view class='main'>
+            <view class='item' bindtap='callService'>
+                <image mode='aspectFill' src='/images/dhkf@3x.svg' class='icon'></image>
+                <text class='text'>电话客服</text>
+            </view>
+            <view class='item'>
+                <image mode='aspectFill' src='/images/zxkf@3x.svg' class='icon'></image>
+                <text class='text'>在线客服</text>
+                <button class="contact_button" open-type="contact" session-from="weapp"></button>
+            </view>
+        </view>
+    </view>
+</view>
+

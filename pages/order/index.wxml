@@ -1,0 +1,96 @@
+<!-- 我的订单 -->
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>我的订单</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<!-- 头部菜单 -->
+<view class='menu' style='top:{{deviceInfo.statusBarHeight  + 44}}px;'>
+  <view class='main'>
+    <view wx:for='{{menu}}' wx:key='{{index}}' class='item, {{mf==index?"select":""}}' bindtap='select' data-status='{{item.status}}' data-item='{{item}}' data-index='{{index}}'>{{item.name}} 
+  </view>
+  </view>
+  <view class='bot-line-container'>
+    <view class='slide-wrapper' style='margin-left: {{mf*20}}%'>
+      <view class='slide'></view>
+    </view>
+  </view>
+</view>
+
+<view class='content' wx:if="{{initData}}">
+  <block wx:if="{{orderList.length}}">
+    <view class='order-item' wx:for="{{orderList}}" wx:key="item">
+      <view class="part1 xpk-1px-b">
+        <view class='order-num'>订单编号：{{item.orderNo}}</view>
+        <text class='order-status'>{{item.statusText}}</text>
+      </view>
+      <view class="part2 xpk-1px-b" bindtap='enterPage' data-id="{{item.id}}">
+        <view class='left'>
+          <image class='driver' src='{{item.avatarImage}}'></image>
+          <!-- <text>陈晨</text> -->
+        </view>
+        <view class='right'>
+          <view class='item'>
+            <text class='name'>{{item.employeeId}}</text>
+          </view>
+          <view class='item'>
+            <text class='phone'>{{item.createDate}}</text>
+          </view>
+          <view class='item item-last'>
+            <view class='money'>￥{{item.orderPrice}}</view>
+            <text>共{{item.totalVehicle}}辆车</text>
+          </view>
+        </view>
+      </view>
+      <view class="part3">
+        <view class='view'></view>
+        <block wx:if="{{item.orderStatus == '1' || item.orderStatus == '2'}}">
+          <view class='btn' data-id="{{item.id}}" bindtap='cancelOrder'>取消订单</view>
+          <view class='btn' data-id="{{item.id}}" bindtap='showPopup'>联系客服</view>
+        </block>
+        <view wx:else class='btn' bindtap='enterPage' data-id="{{item.id}}">查看详情</view>
+      </view>
+    </view>
+
+    <view class='is-loading' wx:if='{{hasMore}}'>
+      <text class='icon-Loading icon'></text>
+      <text class='text'>正在加载中</text>
+    </view>
+    <view class='no-more' wx:else>
+      <text class='line'></text>
+      <text class='text'>无更多内容了~</text>
+      <text class='line'></text>
+    </view>
+  </block>
+  <view class='no' wx:else>
+    <image class='nodata' src='/images/index.svg'></image>
+  </view>
+</view>
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />
+
+<!-- 咨询弹窗 -->
+<view class='slide-up_popup' bindtap='closePopup' catchtouchmove='preventEvent' wx:if='{{customerService}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+        <view class='head'>
+            <text class='text'>请选择</text>
+            <text class='icon-gb' bindtap='closePopup'></text>
+        </view>
+        <view class='main'>
+            <view class='item' bindtap='callService'>
+                <image mode='aspectFill' src='/images/dhkf@3x.svg' class='icon'></image>
+                <text class='text'>电话客服</text>
+            </view>
+            <view class='item'>
+                <image mode='aspectFill' src='/images/zxkf@3x.svg' class='icon'></image>
+                <text class='text'>在线客服</text>
+                <button class="contact_button" open-type="contact" session-from="weapp"></button>
+            </view>
+        </view>
+    </view>
+</view>

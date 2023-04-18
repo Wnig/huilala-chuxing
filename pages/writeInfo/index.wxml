@@ -1,0 +1,96 @@
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>填写信息</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<view class='content'>
+  <view class='info' bindtap='enterPage'>
+    <image class='next' src='/images/next-b.svg'></image>
+    <block wx:if="{{isHasInfo}}">
+      <view class='part1'>
+        <text>{{name}}</text>
+        <text>{{wechatPhone}}</text>
+      </view>
+      <view class='part2'>{{department}}</view> 
+    </block>
+    <view class='choice-info' wx:else>请选择乘客</view>
+  </view>
+  <view class='remark'>
+    <image src='/images/bz@3x.svg'></image>
+    <input type='text' placeholder='请输入备注信息（如：携带有4个旅行箱）' value='{{remark}}' bindinput='inputVal'></input>
+  </view>
+  <view class='explain'>
+    <view class='tit'>
+      <image src='/images/zy@3x.svg'></image>
+      <text>退改说明</text>
+    </view>
+    <view class='cont'>
+      <view class='item'>
+        <text class='dot'></text>
+        <view class='p'>您可在行程开始前取消订单，行程开始后不允许取消订单。</view>
+      </view>
+      <view class='item'>
+        <text class='dot'></text>
+        <view class='p'>距离订单始发时间24小时前取消订单，我们将全额退回您支付的费用。</view>
+      </view>
+      <view class='item'>
+        <text class='dot'></text>
+        <view class='p'>距离订单始发时间大于12小时且小于24小时取消订单，我们将收取您支付的30%包车费用作为补偿。</view>
+      </view>
+      <view class='item'>
+        <text class='dot'></text>
+        <view class='p'>距离订单始发时间12小时内取消订单，我们将收取您支付的50%包车费用作为补偿。</view>
+      </view>
+      <view class='item'>
+        <text class='dot'></text>
+        <view class='p'>距离订单始发时间2小时内取消订单，我们将收取您支付的全款。</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='footer'>
+  <view class='left'>
+    <view class='part1'>
+      <view class='yu'>
+        预估价<text class='s'>¥</text><text class='b'>{{obj.orderPrice}}</text>
+      </view>
+      <view class='fees' bindtap='openMask'>
+        费用明细
+        <image src='/images/up.svg'></image>
+      </view>
+    </view>
+    <view class='part2'>
+      可乘坐<text>{{obj.totalPassenger}}</text>人，可携带<text>{{obj.luggageNum}}</text>件行李
+    </view>
+  </view>
+  <view class='right' bindtap='submit'>
+    <text>提交订单</text>
+  </view>
+</view>
+
+<!-- 费用明细弹窗 -->
+<view class='mask' wx:if="{{isMask}}" bindtap='closeMask'>
+  <view class='fees-con' catchtap="returnMask">
+    <view class='head xpk-1px-b'>
+      <text class='text'>费用明细</text>
+      <text class='icon-gb' catchtap='closeMask'></text>
+    </view>
+    <scroll-view class='cons' scroll-y='{{true}}' bindscrolltolower='onScrollBottom'>
+      <view class='item' wx:for="{{allCarInfo}}" wx:key="item">
+        <block wx:if="{{item.textVal}}">
+          <view class='num'>{{item.name}}x{{item.textVal}}</view>
+          <view class='money' wx:if="{{item.priceStatus != 'noPrice'}}">￥{{item.price * item.textVal}}</view>   
+          <view class='money money-rg' wx:else>{{item.price}}</view>      
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />

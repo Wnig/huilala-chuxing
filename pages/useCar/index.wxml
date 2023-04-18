@@ -1,0 +1,150 @@
+<!-- 头部 -->
+<view class='header' style="padding-top: {{deviceInfo.statusBarHeight}}px;">
+  <view class='header-cons'>
+    <image class='back' src='/images/back.png' bindtap='backPre'></image>
+    <text>我要用车</text>  
+  </view>
+</view>
+<view class='header_' style="padding-top: {{deviceInfo.statusBarHeight}}px;"></view>
+
+<scroll-view  class='content' scroll-y='{{true}}'>
+  <view class='info-con'>
+    <view class='tab-btn'><text>厦门包车</text></view>
+    <view class='tab-cons xpk-1px-b'>
+      <view class='tab-con'>
+        <block wx:for="{{menu}}" wx:key="item">
+          <text wx:if="{{index == 0}}" data-type="{{menus[0].orderType}}" data-time="{{menus[0].useTime}}"  class='item {{index == mf ? "select" : ""}}' data-index='{{index}}'  bindtap='select'>{{item.name}}</text>
+          <text wx:elif="{{index == 2}}" data-type="{{menus[3].orderType}}" data-time="{{menus[3].useTime}}" class='item {{index == mf ? "select" : ""}}' data-index='{{index}}'  bindtap='select'>{{item.name}}</text>
+          <text wx:else class='item {{index == mf ? "select" : ""}}' data-index='{{index}}'  bindtap='select'>{{item.name}}</text>
+        </block>
+      </view>     
+      <view class='bot-line-container'>
+        <view class='slide-wrapper' style='margin-left: {{mf*33.33}}%'>
+          <view class='slide'></view>
+        </view>
+      </view>   
+    </view>
+    <view class='pickup-btn' wx:if="{{mf == 1}}">
+      <view class='btn-con'>
+        <text wx:if="{{isPick}}"  data-type="{{menus[1].orderType}}" data-time="{{menus[1].useTime}}" class='{{isPick ? "on" : "off"}}'>接机(站)</text>
+        <text wx:else bindtap='tabChange' data-type="{{menus[1].orderType}}" data-time="{{menus[1].useTime}}" class='{{isPick ? "on" : "off"}}'>接机(站)</text>
+        <text wx:if="{{!isPick}}" data-type="{{menus[2].orderType}}" data-time="{{menus[2].useTime}}" class='{{!isPick ? "on" : "off"}}'>送机(站)</text>
+        <text wx:else bindtap='tabChange' data-type="{{menus[2].orderType}}" data-time="{{menus[2].useTime}}" class='{{!isPick ? "on" : "off"}}'>送机(站)</text>
+      </view>
+    </view>
+    <block wx:if="{{mf != 1}}">
+      <view wx:if="{{isLocation}}" class='addr departure xpk-1px-b' bindtouchstart='departure'>
+        <view class='alert' wx:if="{{isErr == 1}}">请选择厦门市内的地址</view>
+        <text class='dot green'></text><input maxlength='25' type='text' placeholder='在哪里上车（只限厦门市内）' disabled="true" value='{{departure}}'></input>
+      </view>
+      <view wx:else class='addr departure xpk-1px-b'>
+        <button class='button' open-type="openSetting" bindopensetting="openSetting"></button>
+        <view class='alert' wx:if="{{isErr == 1}}">请选择厦门市内的地址</view>
+        <text class='dot green'></text><input maxlength='25' type='text' placeholder='在哪里上车（只限厦门市内）' disabled="true" value='{{departure}}'></input>
+      </view>
+      <view wx:if="{{isLocation}}" class='addr destination' bindtouchstart='destination'>
+        <view class='alert' wx:if="{{isErrs == 1}}">请选择福建省内的地址</view>
+        <text class='dot yellow'></text><input maxlength='25' type='text' placeholder='要去哪里（只限福建省内）' disabled="true" value='{{destination}}'></input>
+      </view>     
+      <view wx:else class='addr destination' bindtouchstart='destination'>
+        <button class='button' open-type="openSetting" bindopensetting="openSetting"></button>
+        <view class='alert' wx:if="{{isErrs == 1}}">请选择福建省内的地址</view>
+        <text class='dot yellow'></text><input maxlength='25' type='text' placeholder='要去哪里（只限福建省内）' disabled="true" value='{{destination}}'></input>
+      </view>  
+    </block>
+    <block wx:else>
+      <view wx:if="{{isLocation}}" class='addr departure xpk-1px-b' bindtap='departure'>
+        <!-- <view class='alert' wx:if="{{isErr == 1}}">请选择厦门市内的地址</view> -->
+        <text class='dot green'></text><input maxlength='25' type='text' placeholder='在哪里上车（只限厦门市内）' disabled="true" value='{{departures}}'></input>
+      </view>
+      <view wx:else class='addr departure xpk-1px-b' bindtap='departure'>
+        <!-- <view class='alert' wx:if="{{isErr == 1}}">请选择厦门市内的地址</view> -->
+        <button class='button' open-type="openSetting" bindopensetting="openSetting"></button>
+        <text class='dot green'></text><input maxlength='25' type='text' placeholder='在哪里上车（只限厦门市内）' disabled="true" value='{{departures}}'></input>
+      </view>
+      <view wx:if="{{isLocation}}" class='addr destination' bindtap='destination'>
+        <!-- <view class='alert' wx:if="{{isErr == 2}}">请选择福建省内的地址</view> -->
+        <text class='dot yellow'></text><input maxlength='25' type='text' placeholder='要去哪里（只限福建省内）' disabled="true" value='{{destinations}}'></input>
+      </view>
+      <view wx:else class='addr destination' bindtap='destination'>
+        <!-- <view class='alert' wx:if="{{isErr == 2}}">请选择福建省内的地址</view> -->
+        <button class='button' open-type="openSetting" bindopensetting="openSetting"></button>
+        <text class='dot yellow'></text><input maxlength='25' type='text' placeholder='要去哪里（只限福建省内）' disabled="true" value='{{destinations}}'></input>
+      </view>   
+    </block>
+  </view>
+  <view class='car-info'  wx:if="{{mf == 1}}">
+    <image mode='aspectFit' src='/images/hbh@3x.png'></image>
+    <input type='text' maxlength='6' value='{{carNum}}' placeholder='输入航班号/动车号' data-type="carnum" bindinput='inputVal'></input>
+  </view>
+  <view class='remark' wx:if="{{mf == 2}}">
+    <image mode='aspectFit' src='/images/bz@3x.svg'></image>
+    <input type='text' placeholder='请输入行程信息' value='{{remark}}' data-type='remark' bindinput='inputVal'></input>
+  </view>
+  <view class='time'  wx:if="{{mf != 2}}">
+    <image mode='aspectFit' src='/images/sj@3x.png'></image>
+    <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" range-key="time">
+      <view class="picker">
+        <text class='text' wx:if="{{isStart}}">{{multiArray[0][multiIndex[0]].time}} {{multiArray[0][multiIndex[0]].week}}  {{multiArray[1][multiIndex[1]].hour}}:{{multiArray[2][multiIndex[2]].min}}</text>
+        <text class='gray' wx:else>出发时间</text>
+      </view>
+    </picker>
+  </view>
+  <view class='time'  wx:if="{{mf == 2}}">
+    <image src='/images/sj@3x.png'></image>
+    <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" range-key="time">
+      <view class="picker">
+        <text class='text' wx:if="{{isStart}}">{{multiArray[0][multiIndex[0]].time}} {{multiArray[0][multiIndex[0]].week}}  {{multiArray[1][multiIndex[1]].hour}}:{{multiArray[2][multiIndex[2]].min}}</text>
+        <text class='gray' wx:else>出发时间</text>
+      </view>
+    </picker>
+    <image class='c_img' src='/images/s_next.svg'></image>
+    <block wx:if="{{isStart}}">
+      <picker mode="multiSelector" bindchange="bindMultiPickerChanges" bindcolumnchange="bindMultiPickerColumnChanges" value="{{multiIndexs}}" range="{{multiArrays}}" range-key="time">
+        <view class="picker">
+          <text class='text' wx:if="{{isEnd}}">{{multiArrays[0][multiIndexs[0]].time}} {{multiArrays[0][multiIndexs[0]].week}}  {{multiArrays[1][multiIndexs[1]].hour}}:{{multiArrays[2][multiIndexs[2]].min}}</text>
+          <text class='gray' wx:else>返回时间</text>
+        </view>
+      </picker>
+    </block>
+    <block wx:else>
+      <text bindtap="alertTips" class='gray'>返回时间</text>
+    </block>
+  </view>
+  <view class='tips'>
+    <image src='/images/zy@3x.svg'></image>
+    <text>注意：单程行程仅负责单接单送，如需司机全程跟车请选择包天行程 </text>
+  </view>
+</scroll-view>
+
+<view class='footer'>
+  <view class='contact' bindtap='showPopup'>
+    <text>批量用车需求，请联系客服</text>
+    <image src='/images/next-w.svg'></image>
+  </view>
+  <view class='btn btn-yellow' bindtap='nextPage'>下一步</view> 
+</view>
+
+<!-- ========   toast   ============ -->
+<i-toast id="toast" />
+
+<!-- 咨询弹窗 -->
+<view class='slide-up_popup' bindtap='closePopup' catchtouchmove='preventEvent' wx:if='{{customerService}}' animation='{{popupFade}}'>
+    <view class='slot-wrapper' animation='{{popSlide}}' catchtap='preventEvent'>
+        <view class='head'>
+            <text class='text'>请选择</text>
+            <text class='icon-gb' bindtap='closePopup'></text>
+        </view>
+        <view class='main'>
+            <view class='item' bindtap='callService'>
+                <image mode='aspectFill' src='/images/dhkf@3x.svg' class='icon'></image>
+                <text class='text'>电话客服</text>
+            </view>
+            <view class='item'>
+                <image mode='aspectFill' src='/images/zxkf@3x.svg' class='icon'></image>
+                <text class='text'>在线客服</text>
+                <button class="contact_button" open-type="contact" session-from="weapp"></button>
+            </view>
+        </view>
+    </view>
+</view>

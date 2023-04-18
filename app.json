@@ -1,0 +1,30 @@
+{
+  "pages":[
+
+    "pages/index/index",
+    "pages/order-details/index", 
+     "pages/orderDetail/index",
+    "pages/tips/index",
+    "pages/writeInfo/index",
+    "pages/choiceUser/index",
+    "pages/choiceCar/index",
+    "pages/where/index",
+    "pages/useCar/index",
+    "pages/search/index",
+    "pages/reg/index",
+    "pages/order/index",
+    "pages/detail/index", 
+    "pages/manage/index",
+    "pages/edit/index",
+    "pages/loginReg/index",
+    
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "会拉拉",
+    "navigationBarTextStyle":"black",
+    "navigationStyle": "custom"
+  }
+}

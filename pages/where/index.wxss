@@ -1,0 +1,234 @@
+.header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 44px;
+  background: #FFFFFF;
+  z-index: 9999;
+}
+.header-cons {
+  position: relative;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.header text {
+  font-family: PingFangSC-Semibold;
+  font-size: 18px;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 17px;
+}
+.header .back {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28rpx;
+  margin: auto;
+  width: 22px;
+  height: 22px;
+}
+.header_ {
+  height: 105px;
+}
+
+.header-con {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9999;
+}
+.head {
+  display: flex;
+  align-items: center;
+  background: #FFF;
+  padding: 20rpx;
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.head > .part1 {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 40rpx;
+  background: #FFF;
+  border-radius: 100px;
+  border: 1px solid #D9D9D9;
+}
+
+.head > .part1::before {
+  border-radius: 100px;
+}
+
+.head > .part1 > .in-put {
+  flex: 1;
+  height: 80rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #000000;
+}
+
+.head .part1 .delicon {
+  position: absolute;
+  right: 35rpx;
+  top: 28rpx;
+  width: 28rpx;
+  height: 28rpx;
+  z-index: 99;
+}
+.head > .part1 > .icon-spxq_xzgb {
+  position: relative;
+  z-index: 10;
+  font-size: 24px;
+  color: #D8D8D8;
+}
+
+.head > .part2 {
+  margin-left: 26rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #000000;
+  line-height: 80rpx;
+}
+
+.content {
+  width: auto;
+  margin-top: 20rpx;
+  background: #FFFFFF;
+}
+.content .item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140rpx;
+  padding-left: 30rpx;
+}
+.content .item image {
+  width: 18rpx;
+  height: 22rpx;
+}
+.content .cons {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  flex-direction: column;
+  height: 100%;
+  margin-left: 4rpx;
+  padding-left: 22rpx;
+}
+.content .cons .part1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: -0.34px;
+  line-height: 16px;  
+}
+.content .cons .part1 .label {
+  margin-left: 22rpx;
+  padding: 4rpx 10rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 10px;
+  color: #FFFFFF;
+  letter-spacing: -0.24px;
+  text-align: center;
+  line-height: 10px;
+  border-radius: 1px;
+}
+.content .cons .part1 .yellow {
+  background: rgba(253,145,5,0.5);
+}
+.content .cons .part1 .blue {
+  background: rgba(91,145,248,0.5);
+}
+.content .cons .part1 .green {
+  background: rgba(66,189,86,0.5);
+}
+.content .cons .part1 .pink {
+  background: rgba(248,71,69,0.5);
+}
+.content .cons .part2 {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #ACACAC;
+  letter-spacing: -0.34px;
+  line-height: 16px;
+}
+
+.no {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 704rpx;
+}
+.no .nodata {
+  width: 386rpx;
+  height: 222rpx;
+  margin-bottom: 40rpx;
+}
+.no text {
+  opacity: 0.4;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: -0.34px;
+  text-align: center;
+  line-height: 14px;  
+}
+
+.no-more {
+    display: flex;
+    align-items: center;
+    padding: 0 80rpx;
+    height: 100rpx;
+}
+
+.no-more > .line {
+    flex: 1;
+    height: 0.5px;
+    /* background: rgb(184, 184, 184); */
+}
+
+.no-more > .text {
+    margin: 0 40rpx;
+    font-size: 28rpx;
+    color: rgb(129, 129, 129);
+}
+
+/* =================================== */
+.is-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100rpx;
+}
+
+.is-loading > .icon {
+    font-size: 32rpx;
+    color: #9B9B9B;
+    animation:myfirst 1.3s linear infinite;
+}
+
+.is-loading > .text {
+    margin-left: 16rpx;
+    font-size: 28rpx;
+    color: #9B9B9B;
+}
+
+@keyframes myfirst
+{
+0%   {transform: rotate(0deg)}
+50%  {transform: rotate(180deg)}
+100% {transform: rotate(360deg)}
+}
